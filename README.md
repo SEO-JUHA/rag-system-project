@@ -6,15 +6,15 @@
 - 협업일지:  https://github.com/r-lag-team3/co-log/blob/883c5c39f8f5ba98feb50a9ee550f19cfef3db78/README.md
 
 ## 프로젝트 개요
-    - 다양한 PDF/HWP 문서로부터 정보를 추출, 전처리, 임베딩, 검색, LLM 기반 질의응답까지의 전체 RAG 파이프라인 구현
-    - 리트리버 성능 평가 및 실험 자동화
+- 다양한 PDF/HWP 문서로부터 정보를 추출, 전처리, 임베딩, 검색, LLM 기반 질의응답까지의 전체 RAG 파이프라인 구현
+- 리트리버 성능 평가 및 실험 자동화
 
 ## 기능 개요
-    - 문서 전처리 및 청크 생성
-    - FAISS 기반 임베딩 및 벡터 검색
-    - RAG 체인 및 LLM 연동
-    - GPT 기반 평가 및 정답 스팬 비교
-    - 실험 결과 자동 저장 및 관리
+- 문서 전처리 및 청크 생성
+- FAISS 기반 임베딩 및 벡터 검색
+- RAG 체인 및 LLM 연동
+- GPT 기반 평가 및 정답 스팬 비교
+- 실험 결과 자동 저장 및 관리
 
 ## version
 - 1.0: 기본 기능 구현
@@ -64,19 +64,36 @@ codeit_mid_project/
 └── .gitignore
 ```
 
+## 나의 역할
+프로젝트 전체 관리 및 리트리버, RAG체인 구현 담당:
+
+- 전처리, 리트리버, 프롬프트, RAG 체인을 개발
+- 청크의 크기, 오버랩 등 조정, 모델의 토큰 초과를 해결하기 위해 배치 임베딩 적용
+- 리트리버 키워드 검색 기능으로 비관련 문서 참조 감소 및 매칭정확도 향상(내부 평가에서 유의미 개선)
+- two-stage retrieval 전략을 사용한 Reranker 기법을 사용해 LLM에 제공되는 컨텍스트의 품질을 극대화
+- nDCG@k로 리트리버 평가 지표 적용
+
+## open ai와 로컬 모델 비교
+### Open AI(gpt-4)
+- nDCG@5=0.2309
+- Recall@5=0.3571
+### HuggingFace
+- nDCG@5=0.2321
+- Recall@5=0.2857
+
 ## 파일 설명
-    - chunking: 전처리된 텍스트, 청크, 정답 스팬(span_list.json) 등
-    - faiss: FAISS 임베딩 및 검색
-    - rag_chain: RAG 체인 구현
-    - API 키와 같은 민감 정보는 별도 환경변수 또는 config 파일로 관리
+- chunking: 전처리된 텍스트, 청크, 정답 스팬(span_list.json) 등
+- faiss: FAISS 임베딩 및 검색
+- rag_chain: RAG 체인 구현
+- API 키와 같은 민감 정보는 별도 환경변수 또는 config 파일로 관리
 
 ## 사용 방법
-    - 데이터 준비: data/pdf_data/에 PDF 파일 저장
-    - 전처리 및 청크 생성: utils/preprocess.py 등 활용
-    - 임베딩 생성: embeddings/faiss.py 실행
-    - RAG 파이프라인 실행: rag_chain/ 내 모듈 사용
-    - 평가 및 실험: utils/evaluate.py, experiment/ 폴더 참고
+- 데이터 준비: data/pdf_data/에 PDF 파일 저장
+- 전처리 및 청크 생성: utils/preprocess.py 등 활용
+- 임베딩 생성: embeddings/faiss.py 실행
+- RAG 파이프라인 실행: rag_chain/ 내 모듈 사용
+- 평가 및 실험: utils/evaluate.py, experiment/ 폴더 참고
 
 ## 실험 및 평가
-    - 실험 결과(experiment/) 제공
-    - 평가 코드로 리트리버 성능, LLM 응답 품질 등 비교 가능
+- 실험 결과(experiment/) 제공
+- 평가 코드로 리트리버 성능, LLM 응답 품질 등 비교 가능
